@@ -6,7 +6,7 @@ const cityInputE1 = document.getElementById("city-input")
 
 const formE1 = document.querySelector("form")
                
-   formE1.addEventListener("sumbit",(event)=>{
+   formE1.addEventListener("submit",(event)=>{
     event.preventDefault();
     const cityValue = cityInputE1.value;
     getWeatherData(cityValue);
@@ -17,8 +17,11 @@ const formE1 = document.querySelector("form")
     
   async function getWeatherData(cityValue){
     try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?
-            q=${cityValue}&appid=${apikey}&units=mwtric`)
+        //const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityValue}&appid=${apikey}&units=mwtric`)
+
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityValue}&appid=${apikey}&units=metric`);
+
+
 
             if(!response.ok){
                 throw new Error("Network response was not ok")
@@ -35,7 +38,7 @@ const formE1 = document.querySelector("form")
                 `Humidity:${data.main.humidity}%`,
                 `wind speed:${data.main.speed}m/s`,
             ];
-            weatherDataE1.querySelector(".icon").innerHTML = `<img src="http://openweathermap.org/img/wn/${icon}.png" alt="weather Icon">`;
+            weatherDataE1.querySelector(".icon").innerHTML = `<img src="https://openweathermap.org/img/wn/${icon}.png" alt="weather Icon">`;
             
 weatherDataE1.querySelector(".temperature").textContent = `${temperature}°C`
 
@@ -48,6 +51,7 @@ weatherDataE1.querySelector(".details").innerHTML = details.map((detail)=>
 
 
     } catch (error) {
-        
+        console.error(error);
+    weatherDataE1.textContent = "Could not fetch weather — check console for details.";
     }
 }
